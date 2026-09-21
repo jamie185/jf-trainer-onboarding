@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>V2 software films · Jamie Fitness</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --ink: #e8edf4;
+      --mute: #8b97a8;
+      --paper: #12171f;
+      --rail: #0c1016;
+      --line: #243044;
+      --hit: #7ec8c4;
+      --warn: #e0b56a;
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; margin: 0; }
+    body {
+      background: var(--paper);
+      color: var(--ink);
+      font-family: "IBM Plex Sans", system-ui, sans-serif;
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      min-height: 100%;
+    }
+    aside {
+      background: var(--rail);
+      border-right: 1px solid var(--line);
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+    aside header {
+      padding: 22px 18px 12px;
+      border-bottom: 1px solid var(--line);
+    }
+    aside header p {
+      margin: 0 0 4px;
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      color: var(--hit);
+    }
+    aside header h1 {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 600;
+    }
+    .list { overflow: auto; flex: 1; padding: 8px; }
+    .clip {
+      width: 100%;
+      text-align: left;
+      border: 0;
+      background: transparent;
+      color: var(--ink);
+      font: inherit;
+      padding: 10px 10px 10px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      display: grid;
+      grid-template-columns: 28px 1fr;
+      gap: 8px;
+      align-items: start;
+    }
+    .clip:hover { background: #1a2230; }
+    .clip.on { background: #1d2c33; outline: 1px solid #2f5b58; }
+    .clip b {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 12px;
+      color: var(--hit);
+      padding-top: 2px;
+    }
+    .clip span { display: block; font-size: 13px; line-height: 1.3; }
+    .clip em {
+      display: block;
+      font-style: normal;
+      color: var(--mute);
+      font-size: 11px;
+      margin-top: 2px;
+    }
+    main {
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      min-width: 0;
+    }
+    .stage {
+      padding: 18px 22px 0;
+    }
+    video {
+      width: 100%;
+      max-height: calc(100vh - 220px);
+      background: #000;
+      border-radius: 10px;
+      display: block;
+    }
+    .meta { padding: 14px 22px 18px; }
+    .meta h2 { margin: 0 0 6px; font-size: 22px; font-weight: 600; }
+    .meta p { margin: 0 0 12px; color: var(--mute); font-size: 14px; max-width: 62ch; }
+    .row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    button.nav, a.nav {
+      appearance: none;
+      border: 1px solid var(--line);
+      background: #1a2230;
+      color: var(--ink);
+      font: inherit;
+      font-size: 13px;
+      padding: 8px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    button.nav:hover, a.nav:hover { border-color: var(--hit); }
+    textarea {
+      width: 100%;
+      margin-top: 12px;
+      min-height: 72px;
+      resize: vertical;
+      background: #0c1016;
+      color: var(--ink);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 10px 12px;
+      font: inherit;
+      font-size: 14px;
+    }
+    kbd {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 11px;
+      color: var(--mute);
+    }
+    @media (max-width: 860px) {
+      body { grid-template-columns: 1fr; }
+      aside { min-height: auto; max-height: 34vh; }
+      video { max-height: 46vh; }
+    }
+  </style>
+</head>
+<body>
+  <aside>
+    <header>
+      <p>Jamie Fitness</p>
+      <h1>V2 software films</h1>
+      <p style="margin-top:10px"><a class="nav" href="index.html#/module/v2-software-films">Open in handbook</a></p>
+    </header>
+    <div class="list" id="list"></div>
+  </aside>
+  <main>
+    <div class="stage">
+      <video id="player" controls playsinline></video>
+    </div>
+    <div class="meta">
+      <h2 id="title"></h2>
+      <p id="blurb"></p>
+      <div class="row">
+        <button class="nav" id="prev" type="button">Previous</button>
+        <button class="nav" id="next" type="button">Next</button>
+        <a class="nav" id="drive" href="#" target="_blank" rel="noreferrer">Open in Drive</a>
+        <kbd>← → space</kbd>
+      </div>
+      <textarea id="notes" placeholder="Your notes for this clip stay in this browser."></textarea>
+    </div>
+  </main>
+  <script>
+    const CLIPS = [
+      { n: "01", file: "01-my-training-setup.mp4", title: "My Training setup", blurb: "Switcher to My Training. White V2 intro. Setup is shown, not submitted.", drive: "1wBVH3xC8JTq0k1k6MIz17eY_ALfrZslX", kind: "Phone" },
+      { n: "02", file: "02-log-workout.mp4", title: "Log a workout", blurb: "Open Jordan Demo on white V2. Training, Lower Body Strength preview. Does not save a live set.", drive: "1srVyi20c2WNYin4baAX8-p6SOfb-hoip", kind: "Phone · V2" },
+      { n: "03", file: "03-everyday-chat.mp4", title: "Everyday chat", blurb: "Messages thread for Jordan. Compose is in frame. Not sent.", drive: "1RVVgEkXeFEgH7idMhKMiBxlysu-3tdaS", kind: "Phone" },
+      { n: "04", file: "04-reschedule-cancel.mp4", title: "Reschedule / cancel", blurb: "Add to schedule, 1on1 types, Cancel, then Select appointments with Reschedule selected / Cancel selected. Book session is not tapped.", drive: "1XJX1Q6WTxQUpJbXF_xl7GAu9LdupSDxH", kind: "Phone" },
+      { n: "05", file: "05-challenge-habits.mp4", title: "Challenge / habits", blurb: "My Training white Challenge tab and Habits. Join is not tapped.", drive: "1LdNqOu10cKmRYX3GZ-f7i89J-syj6exN", kind: "Phone · V2" },
+      { n: "06", file: "06-jf-notes.mp4", title: "JF Notes", blurb: "Portal notes. Isolated demo cards.", drive: "1LvOGkwP4JY72f8olbIJZ9JCtzDnHZJxX", kind: "Portal" },
+      { n: "07", file: "07-accountability-messages.mp4", title: "Accountability messages", blurb: "Portal Messages tool. Send is shown, not tapped.", drive: "1O40IGL-KsbYrZMiFEHcuhXpafVj1Sbdg", kind: "Portal" },
+      { n: "08", file: "08-retention.mp4", title: "Retention", blurb: "Jordan Demo tile and the setup miss list: program, solos, photos, measurements, nutrition.", drive: "1zN4oytxvja1of0Q4SFHWde-8szgc6BR_", kind: "Portal" },
+      { n: "09", file: "09-programs.mp4", title: "Programs", blurb: "Program Builder. Publish is not completed.", drive: "1ZazwbrkN3eGz4N7I6X92Hrpecp-wEhij", kind: "Portal" },
+      { n: "10", file: "10-booking-links.mp4", title: "Booking links", blurb: "Free Session, Strategy, 1:1 with Gabrielle. Live copy still mentions ClickUp.", drive: "1the2vVveao0tRIrb5ZqSUaDCF8R6BUF4", kind: "Portal" },
+      { n: "11", file: "11-free-session-outcome.mp4", title: "Free-session outcome", blurb: "Session Notes dry-run for Alyssa Bennett.", drive: "147oB8PeWJSFs3uKgr0-TP5B6UNpG2rme", kind: "Portal" },
+      { n: "12", file: "12-square-payment.mp4", title: "Square payment", blurb: "Real Square POS Loom. 21-Day Kickstart $99.99, customer directory blurred, Tap to Pay. Charge is not taken.", drive: "1P4gT9__l-9O7naQ4n_x_FJArc53OKzAW", kind: "Phone" },
+      { n: "13", file: "13-ongoing-setup.mp4", title: "Ongoing setup", blurb: "Jordan Demo V2 home, Habits, Food, Progress. Booking is the Schedule film. Publish is the Programs film.", drive: "1F4iSiXmdnszC47SC1tlSH3tSEXywnlIx", kind: "Phone · V2" },
+      { n: "14", file: "14-bug-button.mp4", title: "Bug button", blurb: "Bottom-left bug form. Do not send JF Coach app bugs here.", drive: "10LLUdfOj_mOarwp5DuAnPnMWrgihCF6l", kind: "Portal" },
+      { n: "15", file: "15-team-meetings.mp4", title: "Team meetings", blurb: "More → Team Meetings. Watch / Transcript.", drive: "1IifU8ft5ySkgmJcobcA_5a9g8L3scyKO", kind: "Portal" }
+    ];
+
+    const list = document.getElementById("list");
+    const player = document.getElementById("player");
+    const title = document.getElementById("title");
+    const blurb = document.getElementById("blurb");
+    const drive = document.getElementById("drive");
+    const notes = document.getElementById("notes");
+    let i = 0;
+
+    function key(n) { return "jf-film-notes-" + n; }
+
+    function renderList() {
+      list.innerHTML = "";
+      CLIPS.forEach((c, idx) => {
+        const b = document.createElement("button");
+        b.className = "clip" + (idx === i ? " on" : "");
+        b.type = "button";
+        b.innerHTML = "<b>" + c.n + "</b><span>" + c.title + "<em>" + c.kind + "</em></span>";
+        b.addEventListener("click", () => load(idx, true));
+        list.appendChild(b);
+      });
+    }
+
+    function load(idx, play) {
+      i = (idx + CLIPS.length) % CLIPS.length;
+      const c = CLIPS[i];
+      player.src = "media/films/" + c.file;
+      title.textContent = c.n + "  " + c.title;
+      blurb.textContent = c.blurb;
+      drive.href = "https://drive.google.com/file/d/" + c.drive + "/view";
+      notes.value = localStorage.getItem(key(c.n)) || "";
+      renderList();
+      const on = list.children[i];
+      if (on) on.scrollIntoView({ block: "nearest" });
+      if (play) player.play().catch(() => {});
+    }
+
+    notes.addEventListener("input", () => {
+      localStorage.setItem(key(CLIPS[i].n), notes.value);
+    });
+    document.getElementById("prev").addEventListener("click", () => load(i - 1, true));
+    document.getElementById("next").addEventListener("click", () => load(i + 1, true));
+    player.addEventListener("ended", () => load(i + 1, true));
+    window.addEventListener("keydown", (e) => {
+      if (e.target === notes) return;
+      if (e.key === "ArrowRight" || e.key === "j") { e.preventDefault(); load(i + 1, true); }
+      if (e.key === "ArrowLeft" || e.key === "k") { e.preventDefault(); load(i - 1, true); }
+      if (e.key === " ") { e.preventDefault(); player.paused ? player.play() : player.pause(); }
+    });
+
+    load(0, false);
+  </script>
+</body>
+</html>

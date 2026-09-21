@@ -1,0 +1,7 @@
+.DS_Store
+Thumbs.db
+*.Zone.Identifier
+node_modules/
+.claude/
+.coach.token
+*.pem

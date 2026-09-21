@@ -1,0 +1,34 @@
+WEBVTT
+
+1
+00:00:04.190 --> 00:00:10.213
+This is the real trainer Messages surface.
+
+2
+00:00:10.213 --> 00:00:18.559
+Search for the correct client thread.
+
+3
+00:00:18.559 --> 00:00:30.395
+Read the recent conversation before replying.
+
+4
+00:00:30.395 --> 00:00:38.437
+Write one clear and useful message.
+
+5
+00:00:38.437 --> 00:00:53.633
+Start a new thread only for an assigned client.
+
+6
+00:00:53.633 --> 00:01:01.976
+Retry a failed message and verify it sent.
+
+7
+00:01:01.976 --> 00:01:08.983
+Keep client communication inside JF Coach.
+
+8
+00:01:08.983 --> 00:01:15.550
+Confirm the client before every send.
+
