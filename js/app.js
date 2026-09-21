@@ -106,7 +106,7 @@
   }
 
   function moduleClipIds(module) {
-    return module.blocks.filter(function (block) { return block.type === "clipSlot"; }).map(function (block) { return block.id; });
+    return moduleLeadFilms(module).map(function (block) { return block.id; });
   }
 
   function moduleHasQuiz(module) {
@@ -199,16 +199,11 @@
 
   function moduleMissingRequirements(module) {
     var missing = [];
-    if (moduleHasQuiz(module) && (Number(state.quizBest[module.slug]) || 0) < 80) missing.push("score at least 80% on the quiz");
-    var unseenClips = moduleClipIds(module).filter(function (clipId) { return !state.viewedClips[clipId]; }).length;
-    if (unseenClips) missing.push("watch " + unseenClips + " required video" + (unseenClips === 1 ? "" : "s"));
-    if (moduleHasPractice(module) && !(responseExerciseBlock(module) ? responseExerciseComplete(module) : genericPracticeComplete(module))) missing.push(responseExerciseBlock(module) ? "save all three practice responses" : "save your practice response");
-    if (moduleHasInteractive(module) && !state.games[module.slug]) missing.push("finish the interactive");
-    var savedInteractions = state.interactions[module.slug] || {};
-    if (moduleAccordionKeys(module).some(function (key) { return !savedInteractions[key]; })) missing.push("open every lesson explainer");
-    if (moduleStepKeys(module).some(function (key) { return !savedInteractions[key]; })) missing.push("open every lesson step");
-    var savedTakeaways = state.takeaways[module.slug] || {};
-    if (moduleTakeawayKeys(module).some(function (key) { return !savedTakeaways[key]; })) missing.push("confirm the key takeaways");
+    var lead = moduleLeadFilms(module);
+    var unseen = lead.filter(function (clip) { return !state.viewedClips[clip.id]; }).length;
+    if (unseen && module.slug !== "v2-software-films") missing.push("watch the film");
+    if (module.slug === "v2-software-films" && unseen) missing.push("watch the films, or open Read the lesson after the first few");
+    if (moduleHasQuiz(module) && (Number(state.quizBest[module.slug]) || 0) < 80) missing.push("finish the quiz");
     return missing;
   }
 
@@ -346,54 +341,22 @@
     setTopModuleProgress(null);
     setActiveNav("");
     setActiveModule("");
-    var done = completionCount();
-    var lastModule = moduleBySlug[state.lastSlug] || allModules[0];
-    var continueModule = moduleProgressPercent(lastModule) > 0 && !(state.completed[lastModule.slug] && moduleProgressPercent(lastModule) === 100)
-      ? lastModule
-      : (allModules.find(function (module) { return !(state.completed[module.slug] && moduleProgressPercent(module) === 100); }) || allModules[allModules.length - 1]);
-    var currentPart = continueModule.part;
-    var continueProgress = moduleProgressPercent(continueModule);
-    var continueRows = requirementRows(continueModule);
-    var continueDone = continueRows.filter(function (row) { return row.done; }).length;
-    var trainingRail = DATA.parts.map(function (part) {
-      var progress = partCompletion(part);
-      var isCurrent = part === currentPart;
-      return '<a class="rail-day' + (isCurrent ? ' is-current' : '') + (progress.done === progress.total ? ' is-complete' : '') + '" href="#/module/' + part.modules[0].slug + '"' +
-        ' aria-label="Training day ' + part.number + ': ' + escapeHtml(part.title) + ', ' + progress.done + ' of ' + progress.total + ' complete">' +
-        '<span class="rail-marker" aria-hidden="true"><i></i></span><span class="rail-day-copy"><b>Day ' + part.number + '</b><strong>' + escapeHtml(part.title) + '</strong><small>' + progress.done + ' of ' + progress.total + ' complete</small></span></a>';
-    }).join("");
-    app.innerHTML = '<section class="home-hero">' +
-      '<img class="home-hero-photo" src="media/home-hero.webp" alt="" aria-hidden="true">' +
-      '<div class="container hero-layout">' +
-        '<div>' +
-          '<h1 class="rise d2"><span class="hero-line">Build your skill.</span><span class="hero-line ice">Grow your hours.</span></h1>' +
-          '<p class="lede rise d3">Follow the ordered training path, then return any time for scripts, systems, V2 software films, session craft, and client standards.</p>' +
-        '</div>' +
-        '<aside class="level-panel rise d3" aria-label="Continue training">' +
-          '<div class="level-number">Continue training</div>' +
-          '<span class="level-module">Module ' + continueModule.number + ' of ' + allModules.length + ' &middot; Day ' + currentPart.number + '</span>' +
-          '<h2>' + escapeHtml(continueModule.title) + '</h2>' +
-          '<p><strong>' + continueProgress + '% complete</strong><span>' + continueDone + ' of ' + continueRows.length + ' actions</span></p>' +
-          '<div class="level-bar" aria-label="' + continueProgress + ' percent of this module complete"><span style="width:' + continueProgress + '%"></span></div>' +
-          '<small>' + escapeHtml(continueModule.summary) + '</small>' +
-          '<a class="continue-module" href="#/module/' + continueModule.slug + '">Continue module ' + iconSvg() + '</a>' +
-          '<em>' + done + ' of ' + allModules.length + ' modules complete. Progress stays on this device.</em>' +
-        '</aside>' +
-      '</div>' +
-      '<nav class="container home-training-rail rise d4" aria-label="Training path"><span class="rail-title">Training path</span><div class="rail-days">' + trainingRail + '</div></nav>' +
-    '</section>' +
-    '<section class="home-section home-overview"><div class="container">' +
-      '<div class="section-head reveal"><h2>The full onboarding path. One <span class="ice">clear standard.</span></h2><p>Complete the guided path in order, including the V2 software films, then return to any lesson as a daily reference.</p></div>' +
-      '<ol class="training-overview-list">' + DATA.parts.map(function (part) {
-        var progress = partCompletion(part);
-        return '<li class="training-overview-row reveal"><a href="#/module/' + part.modules[0].slug + '">' +
-          '<span class="overview-day">Day ' + part.number + '</span><div><h3>' + escapeHtml(part.title) + '</h3><p>' + escapeHtml(part.description) + '</p></div>' +
-          '<span class="overview-progress"><b>' + progress.done + ' of ' + progress.total + ' complete</b><i><span style="width:' + progress.percent + '%"></span></i><em>' + progress.percent + '%</em></span>' +
-        '</a></li>';
-      }).join("") + '</ol>' +
-    '</div></section>';
-
-    initReveals();
+    var continueModule = allModules.find(function (module) {
+      return !(state.completed[module.slug] && moduleProgressPercent(module) === 100);
+    }) || allModules[0];
+    app.innerHTML = '<section class="home-hero"><div class="hero-layout">' +
+      '<h1>Trainer onboarding</h1>' +
+      '<p class="lede">Watch the film. Read the short notes if you need them. Then go to the next lesson.</p>' +
+      '<aside class="level-panel">' +
+        '<h2>' + escapeHtml(continueModule.title) + '</h2>' +
+        '<p>' + escapeHtml(continueModule.part.title) + '</p>' +
+        '<a class="continue-module" href="#/module/' + continueModule.slug + '">Start here</a>' +
+      '</aside>' +
+    '</div></section>' +
+    '<div class="start-list">' + DATA.parts.map(function (part) {
+      var first = part.modules[0];
+      return '<a href="#/module/' + first.slug + '"><span><strong>' + escapeHtml(part.title) + '</strong><span>' + part.modules.length + ' lessons</span></span><em>Open</em></a>';
+    }).join("") + '</div>';
   }
 
   function countUp(element, target) {
@@ -587,15 +550,18 @@
 
     lastProgressByModule[slug] = moduleProgressPercent(module);
     setTopModuleProgress(module);
+    var films = moduleLeadFilms(module);
+    var rest = module.blocks.filter(function (block) { return block.type !== "clipSlot"; });
+    var filmHtml = films.map(function (block) { return renderClipSlot(block, ""); }).join("");
+    var restHtml = rest.map(function (block, blockIndex) { return renderBlock(block, module, blockIndex); }).join("");
     app.innerHTML = '<article class="module-page"><div class="narrow">' +
-      '<header class="module-header"><div class="module-meta"><span>' + escapeHtml(module.part.title) + '</span><span>Module ' + module.number + ' of ' + allModules.length + '</span></div><h1>' + headlineWithIce(module.title) + '</h1><p class="module-summary">' + escapeHtml(module.summary) + '</p><div class="lesson-audio"><div class="lesson-audio-copy"><strong>Lesson audio</strong><span>Optional narration with full controls and transcript.</span></div><div class="lesson-audio-player"><button type="button" data-audio-toggle aria-label="Play lesson audio">Play</button><input type="range" min="0" max="1000" value="0" step="1" data-audio-scrub aria-label="Audio position"><output data-audio-time>0:00 / 0:00</output><label>Speed <select data-audio-speed><option value="1">1x</option><option value="1.25">1.25x</option><option value="1.5">1.5x</option><option value="1.75">1.75x</option><option value="2">2x</option></select></label></div><audio preload="metadata" data-lesson-audio hidden><source src="media/audio/' + encodeURIComponent(module.slug) + '.mp3?v=jfi-20260730" type="audio/mpeg"></audio><span data-listen-status aria-live="polite"></span><details class="lesson-audio-transcript"><summary>Read lesson transcript</summary><p>' + escapeHtml(lessonAudioTranscript(module)) + '</p></details></div></header>' +
-      renderModuleTracker(module) +
-      renderLessonGuide(module) +
-      '<div class="module-content">' + module.blocks.map(function (block, blockIndex) { return renderBlock(block, module, blockIndex); }).join("") + '</div>' +
-      '<footer class="module-footer"><div class="complete-row"><div class="complete-copy"><strong>' + (completed ? 'Module complete' : (missingRequirements.length ? 'Finish the open learning checks' : 'Ready to complete')) + '</strong><span>' + escapeHtml(completionCopy) + '</span></div><button class="btn-ice complete-btn' + (completed ? ' done' : '') + (missingRequirements.length && !completed ? ' locked' : '') + '" type="button" data-complete="' + slug + '"' + (missingRequirements.length && !completed ? ' disabled' : '') + '>' + (completed ? 'Completed  &#10003;' : 'Complete module') + '</button></div>' +
+      '<header class="module-header"><div class="module-meta"><span>' + escapeHtml(module.part.title) + '</span></div><h1>' + escapeHtml(module.title) + '</h1><p class="module-summary">' + escapeHtml(module.summary) + '</p></header>' +
+      filmHtml +
+      (restHtml ? '<details class="rest-lesson"><summary>Read the lesson</summary><div class="module-content">' + restHtml + '</div></details>' : '') +
+      '<footer class="module-footer"><button class="btn-ice complete-btn' + (completed ? ' done' : '') + '" type="button" data-complete="' + slug + '">' + (completed ? 'Done' : 'Mark done') + '</button>' +
       '<nav class="module-pagination" aria-label="Module navigation">' +
-        (previous ? '<a href="#/module/' + previous.slug + '"><small>Previous module</small><strong>' + previous.number + '. ' + escapeHtml(previous.title) + '</strong></a>' : '<a href="#/"><small>Back to</small><strong>Handbook home</strong></a>') +
-        (next ? '<a class="next" href="#/module/' + next.slug + '"><small>Next module</small><strong>' + next.number + '. ' + escapeHtml(next.title) + '</strong></a>' : '<a class="next" href="#/path"><small>Review</small><strong>Your full training path</strong></a>') +
+        (previous ? '<a href="#/module/' + previous.slug + '">Back</a>' : '<a href="#/">Home</a>') +
+        (next ? '<a class="next" href="#/module/' + next.slug + '">Next: ' + escapeHtml(next.title) + '</a>' : '<a class="next" href="#/">Home</a>') +
       '</nav></footer>' +
     '</div></article>';
 
@@ -621,7 +587,61 @@
 
   function mediaUrl(file, version) {
     var encoded = String(file || "").split("/").map(encodeURIComponent).join("/");
-    return "media/" + encoded + (version ? "?v=" + encodeURIComponent(version) : "");
+    return "media/" + encoded;
+  }
+
+  var MODULE_FILMS = {
+    "your-first-week": { id: "clip-film-01", title: "Set up My Training" },
+    "one-on-ones-with-gabrielle": { id: "clip-film-10", title: "Book a 1:1 with Gabrielle" },
+    "story-and-mission": { id: "clip-film-15", title: "Team meetings" },
+    "how-your-role-works": { id: "clip-film-15", title: "Team meetings" },
+    "numbers-build-up-curve": { id: "clip-film-08", title: "Retention" },
+    "client-journey": { id: "clip-film-11", title: "Free session outcome" },
+    "trainer-portal": { id: "clip-film-14", title: "Bug button" },
+    "program-builder": { id: "clip-film-09", title: "Programs" },
+    "jf-notes": { id: "clip-film-06", title: "JF Notes" },
+    "retention-tab": { id: "clip-film-08", title: "Retention" },
+    "accountability-messages": { id: "clip-film-07", title: "Accountability messages" },
+    "booking-links-ipad": { id: "clip-film-10", title: "Booking links" },
+    "jf-app-health-score": { id: "clip-film-05", title: "Challenge and habits" },
+    "support-client-jf-app": { id: "clip-film-13", title: "Ongoing setup" },
+    "daily-ops-toolkit": { id: "clip-film-14", title: "Bug button" },
+    "free-session-to-kickstart": { id: "clip-film-11", title: "Free session outcome" },
+    "selling-the-kickstart": { id: "clip-film-12", title: "Square payment" },
+    "objection-handling": { id: "clip-film-12", title: "Square payment" },
+    "21-day-onboarding": { id: "clip-film-13", title: "Ongoing setup" },
+    "count-cue-encourage": { id: "clip-count-cue-encourage", title: "Count, cue, encourage" },
+    "running-great-sessions": { id: "clip-exercise-demonstration", title: "Exercise demonstration" },
+    "retention-mastery": { id: "clip-film-08", title: "Retention" },
+    "quarterly-game-plan-playbook": { id: "clip-film-10", title: "Booking links" },
+    "policy-professionalism": { id: "clip-client-professionalism", title: "Client professionalism" },
+    "pay-tiers-kpis": { id: "clip-film-06", title: "JF Notes" },
+    "payroll-rules": { id: "clip-film-06", title: "JF Notes" },
+    "working-with-the-va": { id: "clip-film-10", title: "Booking links" },
+    "incident-reporting": { id: "clip-film-14", title: "Bug button" },
+    "v2-software-films": null
+  };
+
+  function moduleLeadFilms(module) {
+    if (module.slug === "v2-software-films") {
+      return module.blocks.filter(function (block) { return block.type === "clipSlot"; });
+    }
+    var seen = {};
+    var films = [];
+    var mapped = MODULE_FILMS[module.slug];
+    if (mapped) {
+      films.push({ type: "clipSlot", id: mapped.id, title: mapped.title });
+      seen[mapped.id] = true;
+    }
+    if (!films.length) {
+      module.blocks.forEach(function (block) {
+        if (block.type === "clipSlot" && !seen[block.id]) {
+          films.push(block);
+          seen[block.id] = true;
+        }
+      });
+    }
+    return films.slice(0, 1);
   }
 
   function narrationBlockText(block) {
@@ -677,19 +697,13 @@
 
   function renderClipSlot(block, cls) {
     var media = MEDIA[block.id];
-    var viewed = Boolean(state.viewedClips[block.id]);
     if (!media || !media.file) {
-      return '<section id="' + escapeHtml(block.id) + '" class="clip-player clip-unavailable ' + cls + '"><div class="clip-placeholder"><span class="play-glyph" aria-hidden="true"></span><strong>' + escapeHtml(block.title) + '</strong><p>Tutorial unavailable</p><small>Use the written walkthrough and report the missing media.</small></div></section>';
+      return '<section class="clip-player clip-unavailable ' + cls + '"><p>No film for this lesson yet. Read the notes below.</p></section>';
     }
-    var useMobile = Boolean(media.mobileFile && window.matchMedia && window.matchMedia("(max-width: 700px)").matches);
-    var videoFile = useMobile ? media.mobileFile : media.file;
-    var captionFile = useMobile && media.mobileCaptions ? media.mobileCaptions : media.captions;
-    var plan = demoPlanText(block.id);
-    return '<section id="' + escapeHtml(block.id) + '" class="clip-player ' + cls + '" data-clip-id="' + escapeHtml(block.id) + '">' +
-      '<div class="clip-media"><video playsinline preload="metadata" poster="' + clipPoster(videoFile) + '" aria-label="' + escapeHtml(block.title) + '"><source src="' + mediaUrl(videoFile, media.version) + '" type="video/mp4">' + (captionFile ? '<track kind="captions" src="' + mediaUrl(captionFile, media.version) + '" srclang="en" label="English">' : '') + 'Your browser does not support HTML5 video.</video><button class="video-start" type="button" data-video-start aria-label="Play ' + escapeHtml(block.title) + '"><span class="play-glyph" aria-hidden="true"></span><strong>Play tutorial</strong></button><div class="clip-loading" data-clip-loading><span>Loading tutorial...</span></div></div>' +
-      '<div class="clip-copy"><div><strong>' + escapeHtml(block.title) + '</strong><p data-clip-status>' + (viewed ? 'Viewed and counted toward progress.' : 'Watch this tutorial to add it to your progress.') + '</p>' + (plan ? '<small class="clip-plan"><b>Walkthrough:</b> ' + escapeHtml(plan) + '</small>' : '') + '</div><span class="clip-viewed' + (viewed ? ' is-viewed' : '') + '" data-clip-viewed>' + (viewed ? 'Viewed' : 'Not viewed') + '</span></div>' +
-      '<div class="clip-controls" data-video-controls><div class="clip-scrub-row"><input type="range" min="0" max="1000" value="0" step="1" data-video-scrub aria-label="Video position"><span class="watched-rail" data-watched-rail aria-hidden="true"></span></div><div class="clip-control-row"><button type="button" data-video-toggle>Play</button><button type="button" data-video-skip="-10">Back 10s</button><output data-video-time>0:00 / 0:00</output><label>Speed<select data-video-speed><option value="0.75">0.75x</option><option value="1" selected>1x</option><option value="1.25">1.25x</option><option value="1.5">1.5x</option><option value="2">2x</option></select></label><button type="button" data-video-fullscreen>Full screen</button></div></div>' +
-      (captionFile ? '<details class="clip-transcript" data-transcript-src="' + mediaUrl(captionFile, media.version) + '"><summary>Read transcript</summary><div data-transcript-copy>Open to load the transcript.</div></details>' : '') +
+    var src = mediaUrl(media.file, media.version);
+    return '<section class="clip-player film-card is-ready ' + cls + '" data-clip-id="' + escapeHtml(block.id) + '">' +
+      '<div class="clip-media"><video controls playsinline preload="metadata" src="' + src + '" aria-label="' + escapeHtml(block.title || "") + '"></video></div>' +
+      '<p>' + escapeHtml(block.title || "Watch this") + '</p>' +
     '</section>';
   }
 
@@ -1079,139 +1093,16 @@
   function initClipPlayers(module) {
     app.querySelectorAll("[data-clip-id]").forEach(function (player) {
       var video = player.querySelector("video");
-      var loading = player.querySelector("[data-clip-loading]");
       var clipId = player.dataset.clipId;
-      var marked = Boolean(state.viewedClips[clipId]);
-      var controls = player.querySelector("[data-video-controls]");
-      var toggle = player.querySelector("[data-video-toggle]");
-      var scrub = player.querySelector("[data-video-scrub]");
-      var time = player.querySelector("[data-video-time]");
-      var speed = player.querySelector("[data-video-speed]");
-      var start = player.querySelector("[data-video-start]");
-      var fullscreen = player.querySelector("[data-video-fullscreen]");
-      var watchedRail = player.querySelector("[data-watched-rail]");
-      var furthest = Number(state.clipProgress[clipId]) || 0;
-      var seekingFrom = 0;
-
-      function formatTime(value) {
-        if (!Number.isFinite(value) || value < 0) return "0:00";
-        var minutes = Math.floor(value / 60);
-        var seconds = Math.floor(value % 60);
-        return minutes + ":" + String(seconds).padStart(2, "0");
-      }
-
-      function syncControls() {
-        if (toggle) toggle.textContent = video.paused ? "Play" : "Pause";
-        if (scrub) scrub.value = video.duration ? Math.round((video.currentTime / video.duration) * 1000) : 0;
-        if (time) time.textContent = formatTime(video.currentTime) + " / " + formatTime(video.duration);
-        if (watchedRail && video.duration) watchedRail.style.width = Math.min(100, (furthest / video.duration) * 100) + "%";
-        if (start) start.hidden = !video.paused || video.currentTime > 0;
-      }
-
-      function showPlayer() {
-        player.classList.add("is-ready");
-        if (loading) loading.hidden = true;
-      }
-
-      function showPlaceholder() {
-        var media = player.querySelector(".clip-media");
-        if (!media) return;
-        media.innerHTML = '<div class="clip-placeholder"><span class="play-glyph" aria-hidden="true"></span><strong>Tutorial unavailable</strong><p>The video could not be loaded.</p><small>Use the written walkthrough and report the missing media.</small></div>';
-        if (controls) controls.hidden = true;
-        player.classList.add("clip-unavailable");
-      }
-
+      if (!video || !clipId) return;
       function markViewed() {
-        if (marked) return;
-        marked = true;
+        if (state.viewedClips[clipId]) return;
         state.viewedClips[clipId] = true;
         saveState();
-        var badge = player.querySelector("[data-clip-viewed]");
-        var status = player.querySelector("[data-clip-status]");
-        if (badge) {
-          badge.textContent = "Viewed";
-          badge.classList.add("is-viewed");
-        }
-        if (status) status.textContent = "Viewed and counted toward progress.";
         refreshModuleProgress(module);
-        showToast("Tutorial viewed. Progress updated.");
       }
-
-      if (start) start.addEventListener("click", function () { video.play(); });
-      if (toggle) {
-        toggle.addEventListener("click", function () {
-          if (video.paused) {
-            var result = video.play();
-            if (result && typeof result.catch === "function") result.catch(function () {
-              showToast("The video could not start. Try the native play control.");
-            });
-          } else {
-            video.pause();
-          }
-        });
-      }
-      player.querySelectorAll("[data-video-skip]").forEach(function (button) {
-        button.addEventListener("click", function () {
-          if (!Number.isFinite(video.duration)) return;
-          video.currentTime = Math.max(0, Math.min(furthest, video.currentTime + Number(button.dataset.videoSkip || 0)));
-          syncControls();
-        });
-      });
-      if (speed) {
-        speed.addEventListener("change", function () {
-          video.playbackRate = Number(speed.value) || 1;
-        });
-      }
-      if (scrub) {
-        scrub.addEventListener("pointerdown", function () { seekingFrom = video.currentTime; });
-        scrub.addEventListener("input", function () {
-          if (!Number.isFinite(video.duration)) return;
-          var requested = (Number(scrub.value) / 1000) * video.duration;
-          var allowed = state.viewedClips[clipId] ? video.duration : furthest + 0.75;
-          if (requested > allowed) {
-            video.currentTime = Math.min(furthest, seekingFrom);
-            showToast("Watch this section before moving forward. You can always scrub backward.");
-          } else {
-            video.currentTime = requested;
-          }
-          syncControls();
-        });
-      }
-      if (fullscreen) fullscreen.addEventListener("click", function () {
-        var target = player.querySelector(".clip-media");
-        if (target && target.requestFullscreen) target.requestFullscreen();
-      });
-
-      video.addEventListener("loadedmetadata", function () {
-        showPlayer();
-        syncControls();
-      });
-      video.addEventListener("canplay", showPlayer);
-      video.addEventListener("play", syncControls);
-      video.addEventListener("pause", syncControls);
-      video.addEventListener("error", showPlaceholder);
-      video.querySelectorAll("source").forEach(function (source) { source.addEventListener("error", showPlaceholder); });
-      video.addEventListener("ended", function () {
-        syncControls();
-        markViewed();
-      });
-      video.addEventListener("timeupdate", function () {
-        if (!video.seeking && !video.paused && video.currentTime <= furthest + 1.5) {
-          furthest = Math.max(furthest, video.currentTime);
-          state.clipProgress[clipId] = furthest;
-          if (Math.floor(furthest) % 4 === 0) saveState();
-        }
-        syncControls();
-        if (video.duration && furthest >= video.duration - 0.35) markViewed();
-      });
-      video.addEventListener("seeking", function () {
-        if (state.viewedClips[clipId] || video.currentTime <= furthest + 0.75) return;
-        video.currentTime = furthest;
-      });
-      if (video.readyState >= 1) {
-        showPlayer();
-        syncControls();
-      }
+      video.addEventListener("play", markViewed);
+      video.addEventListener("ended", markViewed);
     });
   }
 
@@ -1232,11 +1123,7 @@
       element.querySelector("strong").textContent = row.done ? "Done" : "To do";
     });
     var completeButton = app.querySelector("[data-complete]");
-    if (completeButton && !state.completed[module.slug]) {
-      var locked = moduleMissingRequirements(module).length > 0;
-      completeButton.disabled = locked;
-      completeButton.classList.toggle("locked", locked);
-    }
+    if (completeButton) completeButton.disabled = false;
     buildSidebar();
     setActiveModule(module.slug);
     if (percent === 100 && lastProgressByModule[module.slug] < 100) celebrate("module", "Module learning checks complete");
@@ -1723,13 +1610,8 @@
     if (retryQuiz) retryQuiz.addEventListener("click", function () { renderModule(module.slug); });
 
     var completeButton = app.querySelector("[data-complete]");
-    completeButton.addEventListener("click", function () {
+    if (completeButton) completeButton.addEventListener("click", function () {
       var slug = completeButton.dataset.complete;
-      var missing = moduleMissingRequirements(module);
-      if (!state.completed[slug] && missing.length) {
-        showToast("Finish this first: " + missing.join(", ") + ".");
-        return;
-      }
       state.completed[slug] = !state.completed[slug];
       saveState();
       var finishedPart = state.completed[slug] && module.part.modules.every(function (item) {
