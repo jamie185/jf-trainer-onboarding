@@ -2,7 +2,7 @@
   "use strict";
 
   var V2 = "20260921-v2-academy";
-  var FACET = "20260925-facet";
+  var FACET = "20260925-voice";
   var CHAL = "20260925-challenge";
   var PORTAL = "20260925-portal";
   window.JF_HANDBOOK_MEDIA = {
