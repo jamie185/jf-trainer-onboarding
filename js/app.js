@@ -587,7 +587,9 @@
 
   function mediaUrl(file, version) {
     var encoded = String(file || "").split("/").map(encodeURIComponent).join("/");
-    return "media/" + encoded;
+    var url = "media/" + encoded;
+    if (version) url += "?v=" + encodeURIComponent(version);
+    return url;
   }
 
   // Only lessons that have no clip of their own. A wrong film is worse than no film.

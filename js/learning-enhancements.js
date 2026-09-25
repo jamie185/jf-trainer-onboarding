@@ -747,7 +747,7 @@
 
   insertAfterFirstHeading(modules["jf-app-health-score"], fence(
     "Challenge, as of 25 September 2026",
-    "The film may show the older white page. Open My Training. Tabs are Home, Training, Challenge, More. The Challenge page is a sky chapter list, not a white card stack. Joined clients tick habits inside Challenge, under Your habits. That list is the same as Home. A workout habit sits on today's workout as Counts for, not as a second row. Wellbeing is mood and breathing on that chapter and under More. Do not tap Join the challenge, Add a habit, Try again, Tell the team, a habit tick, a mood, Play, or Add."
+    "The film is the sky chapter list. This week is Find your distance. Your habits are on that page and are not ticked. Wellbeing says Mood check-in and breathing exercises. Moods are Awesome, Good, Fine, Bad, and Terrible. Breaths are Box, Long exhale, Equal, and Custom. The film does not open that sheet. Do not tap Join the challenge, Add a habit, Try again, Tell the team, a habit tick, a mood, Play, or Add."
   ));
 
   ["trainer-portal", "program-builder", "jf-notes", "retention-tab", "accountability-messages", "booking-links-ipad", "jf-app-health-score", "support-client-jf-app", "free-session-to-kickstart", "selling-the-kickstart", "21-day-onboarding"].forEach(function (slug) {
@@ -804,8 +804,8 @@
   );
   warnFirst(
     "jf-app-health-score",
-    "The Challenge film is the older page",
-    "The current Challenge screen is the sky chapter list. The film may show the older white page. Do not tap Join the challenge, Add a habit, Try again, or Tell the team. The workout film is Lower Body Strength. Do not tap Start session."
+    "Challenge film",
+    "The film is the sky chapter list, Find your distance, then Your habits, then Wellbeing. Do not tap Join the challenge, Add a habit, Try again, or Tell the team. Do not open the mood sheet."
   );
   warnFirst(
     "21-day-onboarding",
@@ -841,10 +841,10 @@
         });
       }
       if (block.type === "clipSlot" && block.id === "clip-film-05") {
-        block.title = "05 Challenge. The film is the older white page, not the sky chapter list.";
+        block.title = "05 Challenge. Sky chapter list, Your habits, then Wellbeing. Nothing is tapped.";
       }
       if (block.type === "clipSlot" && block.id === "clip-jf-app-health-score") {
-        block.title = "Challenge film. It may show the older white page, not the sky chapter list.";
+        block.title = "Challenge film. Sky chapter list. Your habits and Wellbeing are on the page. Nothing is tapped.";
       }
       if (block.type === "clipSlot" && block.id === "clip-support-client-jf-app") {
         block.title = "Log a workout. Lower Body Strength. Start session is not tapped.";

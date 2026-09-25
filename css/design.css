@@ -219,15 +219,17 @@ body.route-home #app {
   .sidebar { display: none !important; }
   body.sidebar-open .sidebar { display: block !important; transform: none !important; }
   main#app, #app, body.route-home main#app { margin-left: 0 !important; width: 100% !important; }
+  .topbar { gap: 8px !important; }
+  .brand { flex: 1 1 auto; min-width: 0 !important; }
+  .phone-lessons { flex: 0 0 auto; margin-right: 8px; }
   .mobile-menu {
     display: grid !important;
-    position: absolute !important;
-    right: 12px !important;
-    top: 12px !important;
+    position: static !important;
     z-index: 80 !important;
     width: 42px !important;
     height: 42px !important;
     margin: 0 !important;
+    flex: 0 0 auto;
     background: #fff !important;
     color: #222326 !important;
     box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
