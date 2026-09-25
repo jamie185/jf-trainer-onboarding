@@ -3552,7 +3552,7 @@ window.JF_HANDBOOK_CONTENT = {
               "type": "callout",
               "tone": "success",
               "title": "The golden rule",
-              "text": "If the appointment is still in your calendar by the end of the week, you get paid for it and that session is forfeited by the client."
+              "text": "If an appointment is still in your JF Coach calendar at the end of the week, you get paid for it. A client-forfeited session stays in. A rescheduled or spared session comes out. Paused clients should be absent."
             },
             {
               "type": "callout",

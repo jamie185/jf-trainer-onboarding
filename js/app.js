@@ -263,7 +263,7 @@
   function buildSidebar() {
     sidebarTree.innerHTML = DATA.parts.map(function (part) {
       var progress = partCompletion(part);
-      return '<details class="tree-part">' +
+      return '<details class="tree-part" open>' +
         '<summary class="tree-part-title"><span>' + escapeHtml(part.title) + '</span><small>' + progress.done + '/' + progress.total + '</small><b aria-hidden="true"></b></summary>' +
         '<div class="tree-part-modules">' +
         part.modules.map(function (module) {
@@ -346,7 +346,7 @@
     }) || allModules[0];
     app.innerHTML = '<section class="home-hero"><div class="hero-layout">' +
       '<h1>Trainer onboarding</h1>' +
-      '<p class="lede">Watch the film. Read the short notes if you need them. Then go to the next lesson.</p>' +
+      '<p class="lede">Start at Your First Week. Watch the film, then follow the steps under it.</p>' +
       '<aside class="level-panel">' +
         '<h2>' + escapeHtml(continueModule.title) + '</h2>' +
         '<p>' + escapeHtml(continueModule.part.title) + '</p>' +
@@ -557,7 +557,7 @@
     app.innerHTML = '<article class="module-page"><div class="narrow">' +
       '<header class="module-header"><div class="module-meta"><span>' + escapeHtml(module.part.title) + '</span></div><h1>' + escapeHtml(module.title) + '</h1><p class="module-summary">' + escapeHtml(module.summary) + '</p></header>' +
       filmHtml +
-      (restHtml ? '<details class="rest-lesson"><summary>Read the lesson</summary><div class="module-content">' + restHtml + '</div></details>' : '') +
+      (restHtml ? '<div class="module-content">' + restHtml + '</div>' : '') +
       '<footer class="module-footer"><button class="btn-ice complete-btn' + (completed ? ' done' : '') + '" type="button" data-complete="' + slug + '">' + (completed ? 'Done' : 'Mark done') + '</button>' +
       '<nav class="module-pagination" aria-label="Module navigation">' +
         (previous ? '<a href="#/module/' + previous.slug + '">Back</a>' : '<a href="#/">Home</a>') +
@@ -590,58 +590,19 @@
     return "media/" + encoded;
   }
 
+  // Only lessons that have no clip of their own. A wrong film is worse than no film.
   var MODULE_FILMS = {
-    "your-first-week": { id: "clip-film-01", title: "Set up My Training" },
-    "one-on-ones-with-gabrielle": { id: "clip-film-10", title: "Book a 1:1 with Gabrielle" },
-    "story-and-mission": { id: "clip-film-15", title: "Team meetings" },
-    "how-your-role-works": { id: "clip-film-15", title: "Team meetings" },
-    "numbers-build-up-curve": { id: "clip-film-08", title: "Retention" },
-    "client-journey": { id: "clip-film-11", title: "Free session outcome" },
-    "trainer-portal": { id: "clip-film-14", title: "Bug button" },
-    "program-builder": { id: "clip-film-09", title: "Programs" },
-    "jf-notes": { id: "clip-film-06", title: "JF Notes" },
-    "retention-tab": { id: "clip-film-08", title: "Retention" },
-    "accountability-messages": { id: "clip-film-07", title: "Accountability messages" },
-    "booking-links-ipad": { id: "clip-film-10", title: "Booking links" },
-    "jf-app-health-score": { id: "clip-film-05", title: "Challenge and habits" },
-    "support-client-jf-app": { id: "clip-film-13", title: "Ongoing setup" },
-    "daily-ops-toolkit": { id: "clip-film-14", title: "Bug button" },
-    "free-session-to-kickstart": { id: "clip-film-11", title: "Free session outcome" },
-    "selling-the-kickstart": { id: "clip-film-12", title: "Square payment" },
-    "objection-handling": { id: "clip-film-12", title: "Square payment" },
-    "21-day-onboarding": { id: "clip-film-13", title: "Ongoing setup" },
-    "count-cue-encourage": { id: "clip-count-cue-encourage", title: "Count, cue, encourage" },
-    "running-great-sessions": { id: "clip-exercise-demonstration", title: "Exercise demonstration" },
-    "retention-mastery": { id: "clip-film-08", title: "Retention" },
-    "quarterly-game-plan-playbook": { id: "clip-film-10", title: "Booking links" },
-    "policy-professionalism": { id: "clip-client-professionalism", title: "Client professionalism" },
-    "pay-tiers-kpis": { id: "clip-film-06", title: "JF Notes" },
-    "payroll-rules": { id: "clip-film-06", title: "JF Notes" },
-    "working-with-the-va": { id: "clip-film-10", title: "Booking links" },
-    "incident-reporting": { id: "clip-film-14", title: "Bug button" },
-    "v2-software-films": null
+    "your-first-week": { id: "clip-film-01", title: "My Training setup. The gym induction is in the steps under this film." },
+    "one-on-ones-with-gabrielle": { id: "clip-film-10", title: "Booking links. Open 1:1 with Gabrielle." },
+    "client-journey": { id: "clip-film-11", title: "Free-session outcome" },
+    "retention-mastery": { id: "clip-film-08", title: "Retention tab. The conversation is in the notes under the film." }
   };
 
   function moduleLeadFilms(module) {
-    if (module.slug === "v2-software-films") {
-      return module.blocks.filter(function (block) { return block.type === "clipSlot"; });
-    }
-    var seen = {};
-    var films = [];
+    var own = module.blocks.filter(function (block) { return block.type === "clipSlot"; });
+    if (own.length) return own;
     var mapped = MODULE_FILMS[module.slug];
-    if (mapped) {
-      films.push({ type: "clipSlot", id: mapped.id, title: mapped.title });
-      seen[mapped.id] = true;
-    }
-    if (!films.length) {
-      module.blocks.forEach(function (block) {
-        if (block.type === "clipSlot" && !seen[block.id]) {
-          films.push(block);
-          seen[block.id] = true;
-        }
-      });
-    }
-    return films.slice(0, 1);
+    return mapped ? [{ type: "clipSlot", id: mapped.id, title: mapped.title }] : [];
   }
 
   function narrationBlockText(block) {
@@ -1612,6 +1573,13 @@
     var completeButton = app.querySelector("[data-complete]");
     if (completeButton) completeButton.addEventListener("click", function () {
       var slug = completeButton.dataset.complete;
+      if (!state.completed[slug]) {
+        var missing = moduleMissingRequirements(module);
+        if (missing.length) {
+          showToast("Still to do: " + missing.join(", "));
+          return;
+        }
+      }
       state.completed[slug] = !state.completed[slug];
       saveState();
       var finishedPart = state.completed[slug] && module.part.modules.every(function (item) {

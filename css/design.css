@@ -1,0 +1,203 @@
+/* Loose mode of C:\Users\root\DESIGN.md (24 Sep 2026).
+   Inter, canvas #F5F7FB, tiles white, one dark pill, no borders, no eyebrows. */
+
+:root {
+  --ink: #222326;
+  --body: rgba(31, 32, 37, 0.78);
+  --mute: rgba(31, 32, 37, 0.60);
+  --faint: #8a8f99;
+  --paper: #f5f7fb;
+  --card: #ffffff;
+  --soft: #ebf0f8;
+  --line: #eceef2;
+  --pill: #1f2025;
+  --pill-text: #ebf0f8;
+  --leaf: #2f7a32;
+  --topbar: 72px;
+  --sidebar: 300px;
+  --shadow: 0 1px 0 rgba(0, 0, 0, 0.03);
+  --float: 0 16px 40px -18px rgba(30, 40, 70, 0.35);
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+html, body {
+  background: var(--paper) !important;
+  color: var(--ink) !important;
+  font-family: Inter, system-ui, sans-serif !important;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.45;
+}
+
+.topbar {
+  background: rgba(255, 255, 255, 0.6) !important;
+  backdrop-filter: blur(24px) saturate(1.6);
+  border: 0 !important;
+  box-shadow: var(--shadow);
+  color: var(--ink);
+}
+.brand, .brand-copy strong { color: var(--ink) !important; font-weight: 650; letter-spacing: -0.02em; }
+.brand-mark {
+  background: var(--pill) !important;
+  color: var(--pill-text) !important;
+  border-radius: 12px !important;
+  box-shadow: none !important;
+}
+.brand-copy small {
+  color: var(--faint) !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+}
+.mode-nav a {
+  color: var(--ink) !important;
+  font-weight: 600 !important;
+  border: 0 !important;
+  background: transparent !important;
+  border-radius: 128px !important;
+}
+.mode-nav a.active, .mode-nav a:hover { background: var(--soft) !important; }
+.top-search, .top-module-progress { display: none !important; }
+.mobile-menu {
+  background: #fff !important;
+  border: 0 !important;
+  box-shadow: var(--shadow);
+  color: var(--ink) !important;
+  border-radius: 14px !important;
+}
+
+.sidebar {
+  background: #fff !important;
+  border: 0 !important;
+  box-shadow: var(--float) !important;
+}
+.sidebar-head { background: #fff !important; border-bottom: 0 !important; }
+.sidebar-head p, .sidebar-level { color: var(--faint) !important; text-transform: none !important; letter-spacing: 0 !important; font-weight: 600 !important; }
+.sidebar-head strong, .tree-part-title, .tree-module, .tree-module span { color: var(--ink) !important; }
+.mini-progress { background: #e7ebf2 !important; height: 6px !important; border-radius: 6px !important; }
+.mini-progress span { background: var(--pill) !important; }
+.sidebar-search { display: block !important; }
+.search-control input {
+  background: var(--paper) !important;
+  border: 0 !important;
+  box-shadow: var(--shadow);
+  color: var(--ink) !important;
+  border-radius: 14px !important;
+  font-weight: 500;
+}
+.tree-module:hover, .tree-module.active { background: var(--paper) !important; }
+.reset-progress {
+  color: var(--ink) !important;
+  border: 0 !important;
+  background: var(--soft) !important;
+  border-radius: 128px !important;
+  font-weight: 600 !important;
+}
+
+@media (min-width: 901px) {
+  .sidebar {
+    display: flex !important;
+    flex-direction: column;
+    transform: none !important;
+    left: 0 !important;
+    visibility: visible !important;
+  }
+  .sidebar-head, .sidebar-search, .sidebar-tree, .sidebar-actions { display: block !important; }
+  .mobile-menu { display: none !important; }
+  main#app, #app, body.route-home main#app { margin-left: var(--sidebar) !important; width: auto !important; }
+  body.route-home .sidebar { display: flex !important; }
+}
+
+main#app, #app, .module-page, .path-page, .handbook-page,
+.home-hero, .home-hero::before, .home-hero::after {
+  background: var(--paper) !important;
+  background-image: none !important;
+}
+.home-hero { min-height: 0 !important; padding: 48px 28px 12px !important; }
+.home-hero-photo, .home-training-rail, .home-overview { display: none !important; }
+.hero-layout, .start-list { max-width: 720px !important; }
+.home-hero h1, .page-title h1, .module-header h1 {
+  font-family: Inter, system-ui, sans-serif !important;
+  font-weight: 650 !important;
+  letter-spacing: -0.03em !important;
+  line-height: 1 !important;
+  font-size: clamp(40px, 5vw, 64px) !important;
+  color: var(--ink) !important;
+}
+.lede, .module-summary, .module-meta span, .home-hero p { color: var(--mute) !important; font-weight: 500; }
+
+.level-panel, .start-list a, .path-next, .search-result, .tools-index a,
+.callout, .takeaways, .quiz-card, .practice-card, .quote-script, .learning-lab, .clip-player {
+  background: #fff !important;
+  border: 0 !important;
+  border-radius: 24px !important;
+  box-shadow: var(--float) !important;
+  color: var(--ink) !important;
+}
+.continue-module, .btn-ice, a.continue-module, .complete-btn,
+.module-pagination a.next, .btn-ice.complete-btn {
+  background: var(--pill) !important;
+  color: var(--pill-text) !important;
+  border: 0 !important;
+  border-radius: 128px !important;
+  min-height: 48px;
+  padding: 12px 20px !important;
+  font-weight: 600 !important;
+  font-size: 16px !important;
+  letter-spacing: -0.02em;
+}
+.continue-module:hover, .complete-btn:hover, .module-pagination a.next:hover { transform: scale(1.04); }
+.complete-btn.done { background: var(--leaf) !important; color: #fff !important; }
+.module-pagination a {
+  background: #fff !important;
+  color: var(--ink) !important;
+  border: 0 !important;
+  box-shadow: var(--shadow);
+  border-radius: 18px !important;
+  text-decoration: none;
+}
+.start-list a strong, .path-list strong { color: var(--ink) !important; letter-spacing: -0.02em; }
+.start-list a span, .start-list a em, .path-list small { color: var(--faint) !important; }
+
+.module-page .narrow, .narrow { max-width: 760px !important; }
+.module-content h2, .module-content h3, .callout strong, .takeaways h2, .step-copy strong {
+  font-family: Inter, sans-serif !important;
+  font-weight: 650 !important;
+  letter-spacing: -0.02em !important;
+  color: var(--ink) !important;
+}
+.module-content p, .module-content li, .callout p, .step-copy p, .takeaway-item {
+  color: var(--body) !important;
+  font-size: 16px;
+  font-weight: 500;
+}
+.clip-media { background: #111 !important; border-radius: 24px 24px 0 0; overflow: hidden; }
+.clip-media video { width: 100%; max-height: 72vh; background: #111; }
+.film-card p, .clip-player p { color: var(--body) !important; padding: 14px 18px 18px; margin: 0; }
+.toast { background: var(--pill) !important; color: var(--pill-text) !important; border-radius: 16px !important; }
+
+body.route-home .sidebar,
+body.route-home .sidebar-scrim { display: none !important; }
+body.route-home main#app,
+body.route-home #app {
+  margin-left: 0 !important;
+  width: 100% !important;
+}
+.home-hero h1, .module-header h1 {
+  max-width: 100%;
+  overflow-wrap: break-word;
+  white-space: normal !important;
+}
+
+@media (max-width: 900px) {
+  .sidebar { display: none !important; }
+  body.sidebar-open .sidebar { display: block !important; transform: none !important; }
+  main#app, #app, body.route-home main#app { margin-left: 0 !important; width: 100% !important; }
+  .mobile-menu { display: grid !important; }
+  .home-hero h1, .module-header h1 { font-size: 40px !important; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .continue-module:hover, .complete-btn:hover { transform: none; }
+}

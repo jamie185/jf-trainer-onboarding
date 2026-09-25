@@ -216,7 +216,10 @@
     note: "Optional future idea: trainers could choose to request AI feedback on a saved practice response. Nothing is analysed or sent anywhere today."
   });
 
-  function collapseExtraCallouts(module, visibleCount) {
+  function collapseExtraCallouts(module) {
+    return module;
+  }
+  function collapseExtraCalloutsUnused(module, visibleCount) {
     if (!module) return;
     var seen = 0;
     var overflow = [];
@@ -660,10 +663,99 @@
     ]
   });
 
+  function fence(title, text) {
+    return { type: "callout", tone: "warning", title: title, text: text };
+  }
+
+  insertAfterFirstHeading(modules["selling-the-kickstart"], fence(
+    "Lock all three before you take payment",
+    "After they agree, say: Cool, the Kickstart works best when we lock all 3 sessions in now over the next 21 days. Let's book them at the same time each week so it's locked into your routine. If you cannot book all three, write on the JF Notes card: Kickstart sold. No sessions booked."
+  ));
+
+  insertAfterFirstHeading(modules["your-first-week"], fence(
+    "How you sign in",
+    "Log into the Trainer Portal with your own username and password. Open JF Coach from that portal. A pairing code is only for when management sends you a fresh link. Do not borrow someone else's login."
+  ));
+
+  insertAfterFirstHeading(modules["daily-ops-toolkit"], fence(
+    "Team meetings are on the portal",
+    "More, then Team Meetings. Watch or Transcript is there for a signed-in trainer. If the page is blocked, tell Gabrielle. Do not skip the meeting because a recording exists."
+  ));
+
+  insertAfterFirstHeading(modules["your-first-week"], fence(
+    "Leads and hours",
+    "For the first week or two, take moderate to high intent leads. Then go hard. 10 to 15 hours is not the finish line. The first 12 weeks are."
+  ));
+
+  insertAfterFirstHeading(modules["support-client-jf-app"], fence(
+    "They cannot read the app until they log in",
+    "No goals on the profile means the form is not done. No sign-in means they have not logged in. Do not message them in the app about that. They will not see it. Use the Jamie Fitness email."
+  ));
+
+  insertAfterFirstHeading(modules["client-journey"], fence(
+    "Do not pitch the Kickstart to a manager close",
+    "If the note says the gym manager will consult straight after, deliver the session and stop. Do not pitch the Kickstart and do not book a follow-up."
+  ));
+
+  insertAfterFirstHeading(modules["21-day-onboarding"], fence(
+    "The app videos already go out",
+    "Short Kickstart videos go out as Gabrielle, Day 0 then odd days through Day 15. You do not send that sequence. You reinforce it: week 1 meals, week 2 steps, week 3 one solo workout."
+  ));
+
+  insertAfterFirstHeading(modules["21-day-onboarding"], fence(
+    "Send a support message after Strategy is booked",
+    "One personal JF Coach message in admin time, so the handoff does not feel like a drop. A voice message is better. A short video is best. Still complete the Post-KSP note."
+  ));
+
+  insertAfterFirstHeading(modules["program-builder"], fence(
+    "Today versus the whole phase",
+    "A one-off swap is for today. Do not pile extra exercises onto the phase. Gabrielle owns program quality. Do not wait for a separate Jamie approval, and do not publish during this lesson."
+  ));
+
+  insertAfterFirstHeading(modules["running-great-sessions"], fence(
+    "Ignore the old failure clip",
+    "If an older clip says take a squat to failure, or gives different rest for men and women, ignore the clip. Rest until they can speak. Keep 2 or 3 reps in reserve. Do not take squats or Romanian deadlifts to failure."
+  ));
+
+  insertAfterFirstHeading(modules["selling-the-kickstart"], fence(
+    "Price on the Square screen",
+    "Full price is 99.99. A discounted Kickstart can be 69.99, or a split, only when that is the offer you already agreed. If the item is any other amount, stop and ask. Do not invent a price. The film shows 99.99 and does not ban the approved discount."
+  ));
+
+  insertAfterFirstHeading(modules["running-great-sessions"], fence(
+    "Beginner solos",
+    "Do not program a Romanian deadlift for a beginner solo. Use a back extension, reuse their Kickstart exercises, and give a rep range."
+  ));
+
+  insertAfterFirstHeading(modules["running-great-sessions"], {
+    type: "table",
+    headers: ["Equipment", "What you log"],
+    rows: [
+      ["Dumbbell", "One dumbbell, not the pair. Two 20 kg dumbbells log as 20."],
+      ["Barbell", "Bar plus plates. A 20 kg bar plus 10 kg a side logs as 40."],
+      ["Smith", "Added plates only. Do not add the bar."],
+      ["Cable", "One side only."],
+      ["Plate-loaded machine", "Plates only. Not the machine."]
+    ]
+  });
+
+  insertAfterFirstHeading(modules["jf-app-health-score"], fence(
+    "Challenge, as of 25 September 2026",
+    "Open My Training. Tabs are Home, Training, Challenge, More. The Challenge page is a sky chapter list, not a white card stack. Joined clients tick habits inside Challenge, under Your habits. That list is the same as Home. A workout habit sits on today's workout as Counts for, not as a second row. Wellbeing is mood and breathing on that chapter and under More. Do not tap Join the challenge, a habit tick, a mood, Play, or Add."
+  ));
+
+  ["trainer-portal", "program-builder", "jf-notes", "retention-tab", "accountability-messages", "booking-links-ipad", "jf-app-health-score", "support-client-jf-app", "free-session-to-kickstart", "selling-the-kickstart", "21-day-onboarding"].forEach(function (slug) {
+    if (!modules[slug]) return;
+    insertAfterFirstHeading(modules[slug], fence(
+      "Practice fence",
+      "In a film or a drill, do not send a message, charge a card, publish a program, book a live session, or tap Join. Those buttons write to a real client."
+    ));
+  });
+
   insertBeforeReview(modules["booking-links-ipad"], {
     type: "callout",
     title: "Use the link that matches the completed stage",
-    text: "Free Session link: use after a Free Session. Kickstart link: use after a Kickstart. Gabrielle's 1:1 and coaching links live in Trainer Portal > More > Booking Links. Always use the live portal copy."
+    text: "Free Session link after a Free Session. Strategy link after a Kickstart. 1:1 with Gabrielle is in More, then Booking Links. If that screen still says ClickUp, it means the JF Notes card. Do not open ClickUp."
   });
 
   insertBeforeReview(modules["objection-handling"], {
@@ -719,6 +811,12 @@
       title: "Day 4: Sales, Growth, and Administration",
       description: "Run the Free Session close, handle objections, understand your numbers and pay, and hand work to the right owner.",
       slugs: ["free-session-to-kickstart", "selling-the-kickstart", "objection-handling", "numbers-build-up-curve", "pay-tiers-kpis", "payroll-rules", "working-with-the-va"]
+    },
+    {
+      id: "software-films",
+      title: "Software films",
+      description: "The 15 current walkthroughs. Watch the one that matches the job.",
+      slugs: ["v2-software-films"]
     }
   ];
 
