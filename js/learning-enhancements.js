@@ -258,8 +258,7 @@
   var onboarding = modules["21-day-onboarding"];
   if (onboarding) {
     onboarding.blocks = onboarding.blocks.filter(function (block) {
-      return !(block.type === "clipSlot" && block.id === "clip-21-day-onboarding-overview") &&
-        !(block.type === "callout" && block.title === "Archive video context");
+      return !(block.type === "callout" && block.title === "Archive video context");
     });
   }
 
@@ -686,7 +685,7 @@
 
   insertAfterFirstHeading(modules["daily-ops-toolkit"], fence(
     "Team meetings are on the portal",
-    "More, then Team Meetings. Watch or Transcript is there for a signed-in trainer. If the page is blocked, tell Gabrielle. Do not skip the meeting because a recording exists."
+    "A signed-in trainer opens More, then Team Meetings, then Watch or Transcript."
   ));
 
   insertAfterFirstHeading(modules["your-first-week"], fence(
@@ -748,7 +747,7 @@
 
   insertAfterFirstHeading(modules["jf-app-health-score"], fence(
     "Challenge, as of 25 September 2026",
-    "Open My Training. Tabs are Home, Training, Challenge, More. The Challenge page is a sky chapter list, not a white card stack. Joined clients tick habits inside Challenge, under Your habits. That list is the same as Home. A workout habit sits on today's workout as Counts for, not as a second row. Wellbeing is mood and breathing on that chapter and under More. Do not tap Join the challenge, a habit tick, a mood, Play, or Add."
+    "The film may show the older white page. Open My Training. Tabs are Home, Training, Challenge, More. The Challenge page is a sky chapter list, not a white card stack. Joined clients tick habits inside Challenge, under Your habits. That list is the same as Home. A workout habit sits on today's workout as Counts for, not as a second row. Wellbeing is mood and breathing on that chapter and under More. Do not tap Join the challenge, Add a habit, Try again, Tell the team, a habit tick, a mood, Play, or Add."
   ));
 
   ["trainer-portal", "program-builder", "jf-notes", "retention-tab", "accountability-messages", "booking-links-ipad", "jf-app-health-score", "support-client-jf-app", "free-session-to-kickstart", "selling-the-kickstart", "21-day-onboarding"].forEach(function (slug) {
@@ -759,11 +758,10 @@
     ));
   });
 
-  insertBeforeReview(modules["booking-links-ipad"], {
-    type: "callout",
-    title: "Use the link that matches the completed stage",
-    text: "Free Session link after a Free Session. Strategy link after a Kickstart. 1:1 with Gabrielle is in More, then Booking Links. If that screen still says ClickUp, it means the JF Notes card. Do not open ClickUp."
-  });
+  modules["booking-links-ipad"].blocks.unshift(fence(
+    "ClickUp on that screen",
+    "ClickUp on that screen means the JF Notes card. Do not open ClickUp. Free Session link after a Free Session. Strategy link after a Kickstart. 1:1 with Gabrielle is in More, then Booking Links."
+  ));
 
   insertBeforeReview(modules["objection-handling"], {
     type: "objectionGame",
@@ -777,6 +775,87 @@
     alt: "Jamie teaching a trainer sales conversation",
     title: "Keep the conversation human",
     text: "Use the framework to listen, prescribe, and ask clearly. Do not recite a script over the client."
+  });
+
+  function warnFirst(slug, title, text) {
+    if (!modules[slug]) return;
+    modules[slug].blocks.unshift(fence(title, text));
+  }
+
+  warnFirst(
+    "running-great-sessions",
+    "Ignore the old clip",
+    "Ignore squat to failure. Ignore different rest for men and women. Ignore ClickUp. Keep 2 to 3 reps in reserve, rest until they can speak, and write notes in JF Notes."
+  );
+  warnFirst(
+    "selling-the-kickstart",
+    "Ignore the old clip",
+    "Ignore ClickUp. Notes go on the JF Notes card. Full price is $99.99. An agreed discount is $69.99 or Split. Do not say the Kickstart is usually worth $200."
+  );
+  warnFirst(
+    "one-on-ones-with-gabrielle",
+    "ClickUp on that screen",
+    "ClickUp on that screen means the JF Notes card. Do not open ClickUp."
+  );
+  warnFirst(
+    "support-client-jf-app",
+    "This film is the current workout",
+    "The film is Jordan's Lower Body Strength. Do not tap Start session."
+  );
+  warnFirst(
+    "jf-app-health-score",
+    "The Challenge film is the older page",
+    "The current Challenge screen is the sky chapter list. The film may show the older white page. Do not tap Join the challenge, Add a habit, Try again, or Tell the team. The workout film is Lower Body Strength. Do not tap Start session."
+  );
+  warnFirst(
+    "21-day-onboarding",
+    "Nothing on this film is logged",
+    "The film is Food, Wellbeing, and Progress. Do not log a mood, a breath, food, or a photo."
+  );
+
+  Object.keys(modules).forEach(function (slug) {
+    modules[slug].blocks.forEach(function (block) {
+      if (block.type === "list" && block.items) {
+        block.items = block.items.map(function (item) {
+          if (item.indexOf("Team Meetings appears in More") === 0 || item.indexOf("recordings page is currently unavailable") >= 0) {
+            return "A signed-in trainer opens More, then Team Meetings, then Watch or Transcript.";
+          }
+          if (item.indexOf("unavailable to ordinary trainer accounts") >= 0) {
+            return "Fortnightly team meetings. Attend live. A signed-in trainer opens More, then Team Meetings, then Watch or Transcript.";
+          }
+          return item;
+        });
+      }
+      if (block.type === "prose" && block.text && block.text.indexOf("Let's set you up") >= 0) {
+        block.text = "Switch account, then My Training. The setup screen says Your training. Your game. Do not tap Pick up where you left off or Start again. You book sessions, publish Ongoing, put solos on, take the first photo, and watch them log food. These films use demo names only. They do not send, charge, publish, or book a live session.";
+      }
+      if (block.type === "callout" && block.title === "V2 change") {
+        block.text = "The setup screen says Your training. Your game. Do not tap Pick up where you left off or Start again. The film is Food, Wellbeing, and Progress on their phone. Do not log a mood, a breath, food, or a photo. You still book the series, publish Ongoing, put solos on, and take the first photo.";
+      }
+      if (block.type === "takeaways" && block.items) {
+        block.items = block.items.map(function (item) {
+          if (item.indexOf("Let's set you up") >= 0) {
+            return "I can open My Training. The setup screen says Your training. Your game. I do not tap Pick up where you left off or Start again.";
+          }
+          return item;
+        });
+      }
+      if (block.type === "clipSlot" && block.id === "clip-film-05") {
+        block.title = "05 Challenge. The film is the older white page, not the sky chapter list.";
+      }
+      if (block.type === "clipSlot" && block.id === "clip-jf-app-health-score") {
+        block.title = "Challenge film. It may show the older white page, not the sky chapter list.";
+      }
+      if (block.type === "clipSlot" && block.id === "clip-support-client-jf-app") {
+        block.title = "Log a workout. Lower Body Strength. Start session is not tapped.";
+      }
+      if (block.type === "clipSlot" && block.id === "clip-jf-coach-client-book") {
+        block.title = "Open app shows Lower Body Strength. Start session is not tapped.";
+      }
+      if (block.type === "clipSlot" && block.id === "clip-21-day-onboarding-overview") {
+        block.title = "Ongoing setup. Food, Wellbeing, and Progress. Nothing is logged.";
+      }
+    });
   });
 
   var searchAliases = {
