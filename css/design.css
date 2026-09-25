@@ -50,6 +50,7 @@ html, body {
   font-size: 12px !important;
   font-weight: 500 !important;
 }
+.phone-lessons { display: none; }
 .mode-nav a {
   color: var(--ink) !important;
   font-weight: 600 !important;
@@ -202,6 +203,18 @@ body.route-home #app {
 
 @media (max-width: 900px) {
   .brand { min-width: 0 !important; }
+  .phone-lessons {
+    display: inline-flex !important;
+    margin-left: auto !important;
+    align-items: center;
+    height: 36px;
+    padding: 0 14px;
+    border-radius: 128px;
+    background: #1f2025 !important;
+    color: #ebf0f8 !important;
+    font-weight: 600;
+    text-decoration: none;
+  }
   .mode-nav { display: none !important; }
   .sidebar { display: none !important; }
   body.sidebar-open .sidebar { display: block !important; transform: none !important; }
