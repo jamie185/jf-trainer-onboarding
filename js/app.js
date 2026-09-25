@@ -640,7 +640,7 @@
       "clip-jf-notes": "JF Notes isolated demo board. Open the right card. Facts and next step, not a personality label.",
       "clip-accountability-messages": "Portal weekly messages. Four types, seven-day lock, read the week before you type. Send is shown, not tapped.",
       "clip-booking-links": "Post Free Session, Kickstart Strategy, and 1:1 with Gabrielle. Ongoing PT is Add appointment in JF Coach.",
-      "clip-jf-coach-trainer-home": "My Training white V2 app. Let's set you up, then Strong on What do you want to work on.",
+      "clip-jf-coach-trainer-home": "My Training. The setup screen says Your training. Your game. Do not tap Pick up where you left off or Start again.",
       "clip-jf-coach-client-book": "Jordan Demo Open app, Training, Lower Body Strength preview. Start session is a live write, so this film stops at Preview.",
       "clip-jf-coach-trainer-messaging": "Everyday JF Coach chat. Draft the line. Do not send in the film.",
       "clip-jf-coach-add-appointment": "Add to schedule, 1on1 types, then Cancel. Select appointments with Reschedule selected and Cancel selected. Book session is not tapped.",

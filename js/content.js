@@ -33,8 +33,8 @@ window.JF_HANDBOOK_CONTENT = {
                   "text": "Your welcome email contains the JF Coach App Store link, your personal trainer login code, and your Trainer Portal access. Keep the code private and use only your own access."
                 },
                 {
-                  "title": "Install and pair JF Coach",
-                  "text": "Install JF Coach on your phone, open the current personal pairing link from your welcome email, and complete the in-app trainer tour. Keep that current email available because a reset or wrong-account recovery may require you to reopen the pairing link."
+                  "title": "Open JF Coach from the Trainer Portal",
+                  "text": "Log into the Trainer Portal with your own username and password, then open JF Coach from that portal. A pairing code is only for a fresh link management sends you. Do not borrow someone else's login."
                 },
                 {
                   "title": "Confirm your client book and identity",
@@ -46,7 +46,7 @@ window.JF_HANDBOOK_CONTENT = {
                 },
                 {
                   "title": "Verify the routes you may need under pressure",
-                  "text": "Confirm More, Incident Report opens before your first shift. JF Notes is not provisioned separately for every new trainer by default. If your Portal does not show or open a route this handbook asks you to use, record it as blocked and contact management. Do not create a separate account or borrow another trainer's access."
+                  "text": "Confirm More, Incident Report opens before your first shift. JF Notes is one of the normal portal tabs. Team Meetings is under More for a signed-in trainer. If a route this handbook names is missing, record it as blocked and contact management. Do not create a separate account or borrow another trainer's access."
                 },
                 {
                   "title": "Complete the Square readiness check",
@@ -68,7 +68,7 @@ window.JF_HANDBOOK_CONTENT = {
               "type": "callout",
               "tone": "warning",
               "title": "Shared iPad recovery rule",
-              "text": "Open JF Coach once first. If the identity is still wrong, use Reset App Data, then reopen your current personal pairing link if the app asks you to pair again. Never reinstall JF Coach or use another trainer's code. Stop and report the issue if the correct identity and client book do not return."
+              "text": "Open JF Coach from the Trainer Portal. If the identity is still wrong, stop and tell management. Do not reinstall the app, do not use another trainer's code, and do not use Reset App Data unless management sends that step."
             },
             {
               "type": "callout",
@@ -286,7 +286,7 @@ window.JF_HANDBOOK_CONTENT = {
               "type": "list",
               "items": [
                 "Weekly 1:1 support with Gabrielle, scaled to your needs and hours.",
-                "Fortnightly team meetings. Attend live. The Team Meetings page is currently unavailable to ordinary trainer accounts, so ask Gabrielle for the approved catch-up route if you miss one.",
+                "Fortnightly team meetings. Attend live. Catch up under More, then Team Meetings, then Watch or Transcript. A recording does not replace showing up.",
                 "Quarterly face-to-face Game Plan session with a specific hours target and weekly actions.",
                 "Ongoing group communication for questions, wins, and updates."
               ]
@@ -508,7 +508,7 @@ window.JF_HANDBOOK_CONTENT = {
                 },
                 {
                   "title": "21-Day Kickstart",
-                  "text": "$99.99 for three 30-minute PT sessions, a training plan, meal guide, messaging support, and JF Coach access. It is usually worth $200. Set up the client in JF Coach, then use the three weeks to build meals, steps, and solo-training habits while demonstrating the value of ongoing support."
+                  "text": "Full price is $99.99 for three 30-minute PT sessions, a training plan, meal guide, messaging support, and JF Coach access. Square also has Discounted $69.99 and Split when that is the offer you already agreed. Do not say it is usually worth $200. Do not offer $199.99 or $33.33. Those are not payment chips."
                 },
                 {
                   "title": "Fitness Strategy Session",
@@ -597,8 +597,8 @@ window.JF_HANDBOOK_CONTENT = {
                 ],
                 [
                   "Double Kickstart",
-                  "$199.99 for 6 sessions over the same 3 weeks",
-                  "More support without extending the three-week pathway."
+                  "Not a current Square chip. Do not quote $199.99.",
+                  "Do not offer this unless Gabrielle has put that exact item on the payment screen."
                 ],
                 [
                   "Direct Strategy Session",
@@ -727,7 +727,7 @@ window.JF_HANDBOOK_CONTENT = {
               "items": [
                 "Booking Links: Post Free Session, Strategy Session, and 1:1 with Gabrielle.",
                 "Member Names: build the habit of learning three gym member names each week.",
-                "Team Meetings: the menu item exists, but the recordings page is currently unavailable to ordinary trainer accounts. Use Gabrielle's approved catch-up route.",
+                "Team Meetings: More, then Team Meetings, then Watch or Transcript. A signed-in trainer can open the recordings.",
                 "Updates: the What's New log. The nav item glows when a trainer-visible update is unread."
               ]
             },
@@ -1103,7 +1103,7 @@ window.JF_HANDBOOK_CONTENT = {
             },
             {
               "type": "prose",
-              "text": "Retention is the portal view for client risk, engagement, holidays, measurements, and handoffs. The sub-tabs separate Team, Ongoing, Kickstart, Strategy, and Cancellations. Use JF Coach when you need the live client profile, appointment, workout, or chat thread."
+              "text": "Retention is the portal view for client risk, engagement, holidays, measurements, and handoffs. Your tabs are Ongoing, Kickstart, and Strategy. Team Overview and Cancellations are admin-only. Use JF Coach when you need the live client profile, appointment, workout, or chat thread."
             },
             {
               "type": "heading",
@@ -1501,7 +1501,7 @@ window.JF_HANDBOOK_CONTENT = {
             },
             {
               "type": "prose",
-              "text": "Before opening client information, confirm the displayed Portal username and JF Coach trainer identity are yours. Never accept saved credentials for another trainer. If the identity is wrong, open JF Coach once, then use Reset App Data and the approved pairing or management recovery path. Never reinstall JF Coach or change the iPad's Apple account or device setup."
+              "text": "Before opening client information, confirm the displayed Portal username and JF Coach trainer identity are yours. Never accept saved credentials for another trainer. If the identity is wrong, stop and tell management. Do not reinstall, do not use another trainer's code, and do not reset the app unless management says to. Do not change the iPad's Apple account or device setup."
             },
             {
               "type": "heading",
@@ -1780,7 +1780,7 @@ window.JF_HANDBOOK_CONTENT = {
                 },
                 {
                   "title": "Open the scheduled workout",
-                  "text": "Open Workouts and choose the workout the client is completing today. Check the workout name and date before entering results."
+                  "text": "Open Training. The workout for today is on that tab. Open it with Preview and check the name before you touch a set. There is no button named Workouts."
                 },
                 {
                   "title": "Record each working set",
@@ -1792,7 +1792,7 @@ window.JF_HANDBOOK_CONTENT = {
                 },
                 {
                   "title": "Save through the rating step",
-                  "text": "Tap Save to preserve the workout and continue to the rating card. Record the client's RPE and any useful completion comment, then finish the save. Do not leave the workout on the tracking screen and assume it is complete."
+                  "text": "In a real session, finish with Save for today, then Mark complete. Do not leave the workout open and assume it saved. During this lesson, do not tap Start session, Save for today, or Mark complete."
                 },
                 {
                   "title": "Confirm the completion",
@@ -1831,7 +1831,7 @@ window.JF_HANDBOOK_CONTENT = {
                 "I can open the correct client and track a workout through the final rating step.",
                 "I can teach the client to record real reps, weights, changes, and completion.",
                 "I report empty or incorrect app data directly to management.",
-                "I use Reset App Data for identity weirdness and never reinstall.",
+                "I open JF Coach from the Trainer Portal. I do not reinstall, and I do not reset the app unless management says to.",
                 "I keep client, trainer, and My Training modes separated."
               ]
             },
@@ -2137,11 +2137,11 @@ window.JF_HANDBOOK_CONTENT = {
                 },
                 {
                   "title": "Identify needs and prescribe",
-                  "text": "Ask whether structured training and nutrition support would help. If yes, recommend the Kickstart: three PT sessions, a plan, meal guidance, app support, and habit building. Explain that it is usually worth $200, then state the current $99.99 intake price and any live intake timing shown in the system."
+                  "text": "Ask whether structured training and nutrition support would help. If yes, recommend the Kickstart: three PT sessions, a plan, meal guidance, app support, and habit building. The full price is $99.99. Say that number. Do not say it is usually worth $200."
                 },
                 {
-                  "title": "Book the first session",
-                  "text": "Offer two time choices and book before payment. A real calendar commitment removes the vague time objection."
+                  "title": "Lock all three sessions",
+                  "text": "Offer two time choices and lock all three Kickstart sessions, same time each week, before payment. If you cannot book all three, write on the JF Notes card: Kickstart sold. No sessions booked."
                 },
                 {
                   "title": "Take payment",
@@ -2204,15 +2204,15 @@ window.JF_HANDBOOK_CONTENT = {
                   "feedback": "Understand the green-brain reason before using red-brain logic."
                 },
                 {
-                  "q": "When should you book the first Kickstart session?",
+                  "q": "When do you take Kickstart payment?",
                   "options": [
                     "After the client goes home",
-                    "Before taking payment",
+                    "After all three sessions are locked in",
                     "After the Strategy Session",
-                    "Only if they ask"
+                    "As soon as they say yes, before any booking"
                   ],
                   "answer": 1,
-                  "feedback": "Booking first removes uncertainty and makes the decision concrete."
+                  "feedback": "Lock all three sessions first. Then take payment."
                 },
                 {
                   "q": "Which phrase matches the language rule?",
@@ -2317,7 +2317,7 @@ window.JF_HANDBOOK_CONTENT = {
               "items": [
                 "I can deliver all ten steps without skipping the deeper why.",
                 "I lead with emotion, then confirm with logic.",
-                "I book the first session before payment and close with calm language."
+                "I lock all three Kickstart sessions before payment and close with calm language."
               ]
             }
           ]
@@ -2432,9 +2432,9 @@ window.JF_HANDBOOK_CONTENT = {
                 {
                   "title": "Partial Payment Close",
                   "content": [
-                    "Use this only as a last-resort rescue when the client wants to start but cannot pay $99.99 upfront.",
-                    "The historical approved structure is typically $33.33 for one session plus full plan setup, continuing one session at a time while keeping the discount. Use: Worst case, you received a full custom plan and session for $33. Record Partial 1 of 3 in the current payment and note flow.",
-                    "Confirm the current approved payment process before using this option."
+                    "There is no $33.33 chip and no partial-session product.",
+                    "The only amounts on the screen are Full $99.99, Discounted $69.99, and Split, and only when that is the offer you already agreed.",
+                    "If they cannot pay today, book the payday follow-up. Do not invent a smaller price."
                   ]
                 }
               ]
@@ -2454,15 +2454,15 @@ window.JF_HANDBOOK_CONTENT = {
                   "feedback": "Isolation stops you from solving the wrong objection."
                 },
                 {
-                  "q": "What is the Partial Payment Close?",
+                  "q": "They cannot pay $99.99 today. What do you offer?",
                   "options": [
-                    "The default offer",
-                    "A free trial",
-                    "A last-resort one-session rescue structure",
-                    "An ongoing package"
+                    "A $33.33 first session",
+                    "A price you make up",
+                    "Full $99.99, an agreed $69.99, or Split. Otherwise book payday. Do not invent a chip.",
+                    "Mark it paid and sort it later"
                   ],
                   "answer": 2,
-                  "feedback": "It is a last-resort rescue, not the standard close."
+                  "feedback": "Only the chips on the Square screen are real. $33.33 is not one of them."
                 },
                 {
                   "q": "How should you handle an ongoing price question?",
@@ -2643,7 +2643,7 @@ window.JF_HANDBOOK_CONTENT = {
               "type": "callout",
               "tone": "warning",
               "title": "V2 change",
-              "text": "Clients tap Let's set you up themselves. You still book the series, publish Ongoing, put solos on, take the first photo, and watch them log food. The film below is that check on their phone."
+              "text": "On their phone the setup screen says Your training. Your game. Do not tap Pick up where you left off or Start again during practice. You still book the three sessions, publish Ongoing when they go ongoing, put solos on, take the first photo, and watch them log food."
             },
             {
               "type": "clipSlot",
@@ -4281,7 +4281,7 @@ window.JF_HANDBOOK_CONTENT = {
             },
             {
               "type": "prose",
-              "text": "Clients self-onboard with Let's set you up. You book sessions, publish Ongoing, put solos on, take the first photo, and watch them log food. These films use demo names only. They do not send, charge, publish, or book a live session."
+              "text": "On My Training the setup screen says Your training. Your game. You book the three sessions, publish Ongoing when they go ongoing, put solos on, take the first photo, and watch them log food. These films use demo names only. They do not send, charge, publish, or book a live session."
             },
             {
               "type": "callout",
@@ -4307,7 +4307,7 @@ window.JF_HANDBOOK_CONTENT = {
             {
               "type": "takeaways",
               "items": [
-                "I can open My Training and walk a client through Let's set you up and Strong.",
+                "I can open My Training and stop on Your training. Your game. I do not tap Pick up or Start again.",
                 "I log workouts and chat on the right person, and I never send or start a live write from a demo.",
                 "I add appointments in JF Coach, post VA-owned links from Booking Links, and take Kickstart in Square, never a personal transfer.",
                 "After Kickstart I check habits, food, photos, then publish Ongoing and put solos on."

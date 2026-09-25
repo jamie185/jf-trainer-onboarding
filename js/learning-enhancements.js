@@ -30,7 +30,7 @@
     "selling-the-kickstart": ["Practise the small close", "Say the Kickstart recommendation in your own voice, then ask one direct closing question.", "Record yourself once if you want to hear your pace."],
     "objection-handling": ["Slow the objection down", "Choose one objection and practise: acknowledge it, ask one clarifying question, then respond to the real concern.", "Do not race to a script before understanding the concern."],
     "21-day-onboarding": ["Plan the next week", "Choose a fictional client and write one meals action, one steps action, and one solo-training action that fit their real week.", "Make each action small enough to complete."],
-    "count-cue-encourage": ["Run one live set", "During your next safe set, count every rep, give one useful cue, and use two specific encouragements.", "Notice whether any one skill made you lose the others."],
+    "count-cue-encourage": ["Run one live set", "During your next safe set, do not call every rep. Give one cue and two specific encouragements.", "Notice whether the cue stayed short enough to keep the set moving."],
     "running-great-sessions": ["Make one safe adjustment", "Choose Easy, Medium, or Hard for a fictional set and explain your next load, rep, or rest decision.", "Technique and safety override the plan."],
     "retention-mastery": ["Prepare a retention conversation", "Write one observation, one open question, and one next action for a client whose engagement has dropped.", "Use evidence, not assumptions."],
     "policy-professionalism": ["Protect the standard", "Choose one difficult boundary and practise the sentence you would use with a client.", "Be kind, direct, and consistent."],
