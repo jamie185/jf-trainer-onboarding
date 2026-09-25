@@ -672,6 +672,13 @@
     "After they agree, say: Cool, the Kickstart works best when we lock all 3 sessions in now over the next 21 days. Let's book them at the same time each week so it's locked into your routine. If you cannot book all three, write on the JF Notes card: Kickstart sold. No sessions booked."
   ));
 
+  if (modules["v2-software-films"]) {
+    insertAfterFirstHeading(modules["v2-software-films"], fence(
+      "If the picture and the lesson disagree",
+      "Follow the lesson. Some films still show an older screen, or they stop before the click. Do not send, charge, publish, book, or tap Join while you practise."
+    ));
+  }
+
   insertAfterFirstHeading(modules["your-first-week"], fence(
     "How you sign in",
     "Log into the Trainer Portal with your own username and password. Open JF Coach from that portal. A pairing code is only for when management sends you a fresh link. Do not borrow someone else's login."
