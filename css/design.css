@@ -274,3 +274,33 @@ body.route-home #app {
 @media (prefers-reduced-motion: reduce) {
   .continue-module:hover, .complete-btn:hover { transform: none; }
 }
+
+.lesson-portrait {
+  background: #fff !important;
+  border: 0 !important;
+  box-shadow: var(--float) !important;
+  color: #222326 !important;
+}
+.lesson-portrait figcaption strong,
+.lesson-portrait figcaption p { color: #222326 !important; }
+
+body.route-home.sidebar-open .sidebar {
+  display: block !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+  transform: none !important;
+}
+.search-result,
+.search-result h2,
+.search-result p {
+  color: #222326 !important;
+  background: #fff !important;
+}
+.search-result small { color: #8a8f99 !important; }
+.search-result:hover,
+.search-result:hover h2,
+.search-result:hover p {
+  background: #f5f7fb !important;
+  color: #222326 !important;
+}

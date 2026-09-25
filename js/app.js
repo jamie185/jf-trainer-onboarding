@@ -757,7 +757,7 @@
     if (block.type === "portalSandbox") return renderPortalSandbox(block, cls);
     if (block.type === "responseExercise") return renderResponseExercise(block, module, cls);
     if (block.type === "objectionGame") return renderObjectionGame(block, cls);
-    if (block.type === "portrait") return '<figure class="lesson-portrait ' + cls + '"><img src="' + escapeHtml(block.src) + '" alt="' + escapeHtml(block.alt) + '"><figcaption><strong>' + escapeHtml(block.title) + '</strong><p>' + escapeHtml(block.text) + '</p></figcaption></figure>';
+    if (block.type === "portrait") { var img = block.src ? '<img src="' + escapeHtml(block.src) + '" alt="' + escapeHtml(block.alt || block.title) + '">' : ''; return '<figure class="lesson-portrait ' + cls + '">' + img + '<figcaption><strong>' + escapeHtml(block.title) + '</strong><p>' + escapeHtml(block.text) + '</p></figcaption></figure>'; }
     if (block.type === "practice") return renderPractice(block, module, cls);
     if (block.type === "takeaways") {
       var saved = state.takeaways[module.slug] || {};

@@ -614,16 +614,12 @@
 
   insertAfterFirstHeading(modules["story-and-mission"], {
     type: "portrait",
-    src: "media/posters/client-professionalism.webp",
-    alt: "Jamie introducing a Jamie Fitness training lesson",
     title: "A welcome from Jamie",
     text: "The handbook carries the same standard Jamie teaches in person: make the client feel safe, understood, and capable."
   });
 
   insertAfterFirstHeading(modules["policy-professionalism"], {
     type: "portrait",
-    src: "media/posters/exercise-demonstration.webp",
-    alt: "Jamie teaching exercise demonstration and cueing",
     title: "Professionalism is visible",
     text: "Your preparation, body language, attention, and follow-through teach the client what Jamie Fitness stands for."
   });
